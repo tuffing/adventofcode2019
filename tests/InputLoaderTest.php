@@ -11,7 +11,7 @@ final class InputLoaderTest extends TestCase
 
         $this->assertEquals(
             "test text",
-            InputLoader::LoadAsTextBlob("input.txt")
+            InputLoader::LoadAsTextBlob("inputloader/singleline.txt")
         );
     }
 

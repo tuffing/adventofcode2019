@@ -9,7 +9,7 @@ final class InputLoader
 {
     
 	public static function LoadAsTextBlob($path) {
-		return 'sample test';
+		return file_get_contents("input/$path");
 	}
    
 }
