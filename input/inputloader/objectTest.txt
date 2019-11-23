@@ -1,0 +1,3 @@
+1 pig is 1 and -1.2
+2 dogs are 0 and 2.2
+6 owls are 1 and 55

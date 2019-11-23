@@ -16,6 +16,7 @@ else {
 	print('e.g `php main.php 3 alt-input.txt` -- where alt-input.txt is kept in input/Day03/'. PHP_EOL);
 }
 
+
 /**
 Just a simple loader mechanism to allow running advent of code solutions from the command line
 
@@ -23,13 +24,13 @@ Will expect there to be a iDay object for this day
 **/
 function runDay($day, $input = "input.txt") {
 	$day_class_name = 'Day'. str_pad($day, 2, '0', STR_PAD_LEFT);
-	print($input);
+
 	$day = new $day_class_name($input);
 	$part1 = $day->runPart1();
 	$part2 = $day->runPart2();
 
 	print PHP_EOL;
-	print("$day_class_name --- Part1: $part1 | Part2: $part2");
+	print("$day_class_name --- Using: $input | Part1: $part1 | Part2: $part2");
 	print PHP_EOL;
 	print PHP_EOL;
 }

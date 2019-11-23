@@ -15,10 +15,10 @@ class Day01 implements iDay
 		return 2;
 	}
 
-    public function setInput($input) {
-    	//parse input
-    	$file = "Day01/".$input;
-    	$_input = $input;
-    }
+	public function setInput($input) {
+		//parse input
+		$file = "Day01/".$input;
+		$_input = $input;
+	}
 
 }
