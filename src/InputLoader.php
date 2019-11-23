@@ -1,9 +1,9 @@
 <?php 
 
 /**
-Static functions to perform common advent of code input loading
-
-Files are always presummed to be in the input folder
+* Static functions to perform common advent of code input loading
+*
+* Files are always presummed to be in the input folder
 */
 final class InputLoader
 {
@@ -48,14 +48,14 @@ final class InputLoader
 	* @param string $extras An array of field names and their defaults. e.g ['extra1' => 'world', 'extra2' => -10]
 	*
 	* @return array of stdClasses e.g
-		[{
-			"field1" -> 4,
-			"field2" -> "hello",
-			"field3" -> 1.2,
-			"extra1" -> "world",
-			"extra2" -> -10,
-		},]
-	*/
+	*	[{
+	*		"field1" -> 4,
+	*		"field2" -> "hello",
+	*		"field3" -> 1.2,
+	*		"extra1" -> "world",
+	*		"extra2" -> -10,
+	*	},]
+	**/
 	public static function LoadAsArrayOfObjects($path, $mapping = [], $extras = []) {
 		$lines = InputLoader::LoadAsArrayOfLines($path);
 		$objects = [];
