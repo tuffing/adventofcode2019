@@ -28,7 +28,6 @@ final class InputLoader
     	//var_dump($text);
     	preg_match_all('/-?\d+/', $text, $matches);
 
-    	var_dump($matches[0]);
     	return $matches[0];
     }
 

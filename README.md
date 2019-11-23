@@ -14,19 +14,24 @@ Most of my php is in the older Drupal hook style, so this year I want to use new
 
 Simply run the following cfrom the command line:
 
-`php main.php [day number]`
+`php main.php [day number] [optional input file or location]` 
+
+The leading 0 for the day is optional, 1 or 01 will work for example (but not 001) .
+
+If you supply an alternatie location, it _must_ be in that days input folder.
 
 e.g 
 
 `php main.php 1` 
 
-The leading 0 is optional, 1 or 01 will work for example (but not 001) .
+or
 
-## Todo
+`php main.php 1 alternative-input.txt` 
 
- 1. Folder structures
- 2. Set up basic app structure with tests and mechinism to run each day individually / together
- 3. Set up common functions. Like multi and single line file loading. pull in all numbers etc
+or
+
+`php main.php 1 singlevaluewithoutspaces` 
+
 
 
 ## Days

@@ -17,6 +17,7 @@ class Day01 implements iDay
 
     public function setInput($input) {
     	//parse input
+    	$file = "Day01/".$input;
     	$_input = $input;
     }
 
