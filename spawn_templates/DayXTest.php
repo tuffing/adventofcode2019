@@ -1,23 +1,23 @@
 <?php 
 use PHPUnit\Framework\TestCase;
 
-final class Day01Test extends TestCase
+final class DayXTest extends TestCase
 {
     public function testPart1Test1(): void
     {
-    	$day1 = new Day01("test1.txt");
+    	$dayX = new DayX("test1.txt");
 
         $this->assertEquals(
-            1, $day1->runPart1()
+            1, $dayX->runPart1()
         );
     }
 
     public function testPart2Test1(): void
     {
-    	$day1 = new Day01("test1.txt");
+    	$dayX = new DayX("test1.txt");
 
         $this->assertEquals(
-            2, $day1->runPart2()
+            2, $dayX->runPart2()
         );
     }
 }

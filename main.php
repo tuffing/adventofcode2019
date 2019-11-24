@@ -18,9 +18,9 @@ else {
 
 
 /**
-Just a simple loader mechanism to allow running advent of code solutions from the command line
-
-Will expect there to be a iDay object for this day
+* Just a simple loader mechanism to allow running advent of code solutions from the command line
+*
+* Will expect there to be a iDay object for this day
 **/
 function runDay($day, $input = "input.txt") {
 	$day_class_name = 'Day'. str_pad($day, 2, '0', STR_PAD_LEFT);
