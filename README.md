@@ -27,8 +27,13 @@ This will:
  1. Create a stub Day03.php file in src
  2. Create a stub Day03Test.php in tests
  3. Run the phpab command to prep the autoloader.
+ 4. Fetch that days input.
 
 From this moment solutions and tests for Day 3 can be run.
+
+### Force prepare an already existing day:
+
+Use the flag `--force`. obviously this will override any work on that day. Use with care.
 
 ## Run the solution
 
@@ -52,6 +57,15 @@ or
 
 `php main.php 1 singlevaluewithoutspaces` 
 
+## Fetch a days input
+
+If the input has already unlocked you can autofetch it with:
+
+`php fetchinput.php [day]` 
+
+The spawn command will also attempt to do this.
+
+You will need your Advent of code session cookie set as the AOC_SESSION environment variable. Or the request will 401. 
 
 
 ## Days

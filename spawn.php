@@ -1,4 +1,5 @@
 <?php
+include_once('fetchinput.php');
 
 /** Simple script to spawn a new day if one doesn't exist */
 
@@ -6,6 +7,7 @@ if (!isset($argv[1])) {
 	print('Run as follows:'. PHP_EOL);
 	print('php spawn.php [Day number]'. PHP_EOL);
 	print('php spawn.php 2'. PHP_EOL);
+	print('Use the flag --force to respawn a day that already exists'. PHP_EOL);
 
 	return;
 }
@@ -13,7 +15,7 @@ if (!isset($argv[1])) {
 $day = $argv[1];
 $day_class_name = 'Day'. str_pad($day, 2, '0', STR_PAD_LEFT);
 
-if (file_exists("src/$day_class_name.php") || file_exists("src/$day_class_nameTest.php")) {
+if (!in_array('--force', $argv) && (file_exists("src/$day_class_name.php") || file_exists("src/".$day_class_name."Test.php"))) {
 	print('This day already exist'. PHP_EOL);
 
 	return;
@@ -32,3 +34,5 @@ file_put_contents("tests/". $day_class_name ."Test.php", $test_template);
 
 // regenerate autoload
 print(shell_exec('./tools/phpab -o src/autoload.php -b src src'). PHP_EOL);
+
+fetch_input($day);
