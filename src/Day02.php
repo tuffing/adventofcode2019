@@ -18,7 +18,9 @@ class Day02 implements iDay
 	public function setInput($input) {
 		//parse input
 		$file = "Day02/".$input;
-		$_input = $input;
+		//$this->_input = InputLoader::LoadAsArrayOfLines($file);
+		//$this->_input = InputLoader::FindAndLoadAllNumbersIntoArray($file);
+		//$this->_input = InputLoader::LoadAsTextBlob($file);
 	}
 
 }

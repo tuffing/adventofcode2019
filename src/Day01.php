@@ -8,17 +8,28 @@ class Day01 implements iDay
 	}
 
 	public function runPart1() {
-		return 1;
+		$total = 0;
+		foreach ($this->_input as $value) {
+			$total += floor($value / 3) - 2;
+		}
+		return $total;
 	}
 
 	public function runPart2() {
-		return 2;
+		$total = 0;
+		foreach ($this->_input as $value) {
+			while ($value > 5) {
+				$value = floor($value / 3) - 2;
+				$total += $value;
+			}
+		}
+		return $total;
 	}
 
 	public function setInput($input) {
 		//parse input
 		$file = "Day01/".$input;
-		$_input = $input;
+		$this->_input = InputLoader::FindAndLoadAllNumbersIntoArray($file);
 	}
 
 }

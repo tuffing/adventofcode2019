@@ -72,6 +72,10 @@ You will need your Advent of code session cookie set as the AOC_SESSION environm
 
 ## day 1
 
+Grab some numbers, run "floor(x /3) -1 " on them all and sum them.
+
+Part two is to repeat the process but repeat the math on each until you get to 0.
+
 ## day 2
 
 ## day 3
