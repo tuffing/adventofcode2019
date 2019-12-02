@@ -28,7 +28,12 @@ final class InputLoader
 
 		preg_match_all('/-?\d+/', $text, $matches);
 
-		return $matches[0];
+		$input = [];
+		foreach ($matches[0] as $value) {
+			$input[] = (int)$value;
+		}
+
+		return $input;
 	}
 
 

@@ -40,10 +40,10 @@ class Day02 implements iDay
 			if ($input[$i] == 99) {
 				return $input;
 			}
-			else if ($input[$i] == 1) {
+			else if ($input[$i] === 1) {
 				$input[$input[$i+3]] = $input[$input[$i+1]] + $input[$input[$i+2]];
 			}
-			else if ($input[$i] == 2) {
+			else if ($input[$i] === 2) {
 				$input[$input[$i+3]] = $input[$input[$i+1]] * $input[$input[$i+2]];
 			}
 			$i += 4;
