@@ -78,6 +78,10 @@ Part two is to repeat the process but repeat the math on each until you get to 0
 
 ## day 2
 
+Run a program based on integers.
+
+Part 2 was run it lots.
+
 ## day 3
 
 ## day 4
