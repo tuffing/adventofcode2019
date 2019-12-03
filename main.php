@@ -25,11 +25,14 @@ else {
 function runDay($day, $input = "input.txt") {
 	$day_class_name = 'Day'. str_pad($day, 2, '0', STR_PAD_LEFT);
 
+	$start = microtime(true);
 	$day = new $day_class_name($input);
 	$part1 = $day->runPart1();
 	$part2 = $day->runPart2();
+	$time = round(microtime(true) - $start, 4);
 
 	print PHP_EOL;
+	print("time to run seconds: $time". PHP_EOL);
 	print("$day_class_name --- Using: $input | Part1: $part1 | Part2: $part2");
 	print PHP_EOL;
 	print PHP_EOL;
