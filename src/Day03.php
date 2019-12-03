@@ -19,9 +19,9 @@ class Day03 implements iDay
 
 		//line/circuit 1. we need to track coords and steps for this one
 		foreach ($this->_input[0] as $value) {
-			$mod_x = 0;
-			$mod_y = 0;
-			$this->getDir($value, $mod_x, $mod_y);
+			$mod = $this->getDir($value);
+			$mod_x = $mod[0];
+			$mod_y = $mod[1];
 
 			$length = substr($value , 1);
 
@@ -39,10 +39,9 @@ class Day03 implements iDay
 		$y = 0;
 		$steps = 0;
 		foreach ($this->_input[1] as $value) {		
-			$mod_x = 0;
-			$mod_y = 0;
-
-			$this->getDir($value, $mod_x, $mod_y);
+			$mod = $this->getDir($value);
+			$mod_x = $mod[0];
+			$mod_y = $mod[1];
 
 			$length = substr($value , 1);
 
@@ -75,21 +74,10 @@ class Day03 implements iDay
 		return $this->_part2;
 	}
 
-	private function getDir($value, &$mod_x, &$mod_y) {
+	private function getDir($value) {
+		$dirs = ['U' => [0,-1],'D' => [0,1],'L' => [-1,0],'R' => [1,0]];
 		$start = substr($value , 0, 1);
-	
-		if ($start == 'U') {
-			$mod_y = -1;
-		}
-		else if ($start == 'D') {
-			$mod_y = 1;
-		}
-		else if ($start == 'L') {
-			$mod_x = -1;
-		}
-		else {
-			$mod_x = 1;
-		}
+		return $dirs[$start];
 	}
 
 	public function setInput($input) {
