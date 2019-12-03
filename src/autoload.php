@@ -9,6 +9,7 @@ spl_autoload_register(
             $classes = array(
                 'day01' => '/Day01.php',
                 'day02' => '/Day02.php',
+                'day03' => '/Day03.php',
                 'iday' => '/iDay.php',
                 'inputloader' => '/InputLoader.php'
             );
