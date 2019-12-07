@@ -28,29 +28,28 @@ class Day07 implements iDay
 
 
 	public function heapPermutation(&$a, $size, $n, &$perms, &$count) 
-    { 
-        if ($size == 1) {
-        	$a[] = $n;
-        	$count++;
-            $perms[] = $a; 
-        }
-   
-        for ($i=0; $i<$size; $i++) 
-        { 
-            $this->heapPermutation($a, $size-1, $n, $perms, $count); 
-   
-            if ($size % 2 == 1)  { 
-                $temp = $a[0]; 
-                $a[0] = $a[$size-1]; 
-                $a[$size-1] = $temp; 
-            } 
-            else { 
-                $temp = $a[$i]; 
-                $a[$i] = $a[$size-1]; 
-                $a[$size-1] = $temp; 
-            } 
-        } 
-    } 
+	{ 
+		if ($size == 1) {
+			$a[] = $n;
+			$count++;
+			$perms[] = $a; 
+		}
+		for ($i=0; $i<$size; $i++) 
+		{ 
+			$this->heapPermutation($a, $size-1, $n, $perms, $count); 
+
+			if ($size % 2 == 1)  { 
+				$temp = $a[0]; 
+				$a[0] = $a[$size-1]; 
+				$a[$size-1] = $temp; 
+			} 
+			else { 
+				$temp = $a[$i]; 
+				$a[$i] = $a[$size-1]; 
+				$a[$size-1] = $temp; 
+			} 
+		} 
+	} 
 
 	public function runPart2() {
 		$nums = [5,6,7,8,9];
@@ -77,11 +76,11 @@ class Day07 implements iDay
 			$output = 0;
 
 			while ($i_1 < count($input1) || $i_2 < count($input2) || $i_3 < count($input3) || $i_4 < count($input4) || $i_5 < count($input5)) {
-					$input1= $this->step($i_1, $input1, $cmd_input1, $cmd_input2, $output);
-					$input2= $this->step($i_2, $input2, $cmd_input2, $cmd_input3, $output);
-					$input3= $this->step($i_3, $input3, $cmd_input3, $cmd_input4, $output);
-					$input4= $this->step($i_4, $input4, $cmd_input4, $cmd_input5, $output);
-					$input5= $this->step($i_5, $input5, $cmd_input5, $cmd_input1, $output);
+				$input1= $this->step($i_1, $input1, $cmd_input1, $cmd_input2, $output);
+				$input2= $this->step($i_2, $input2, $cmd_input2, $cmd_input3, $output);
+				$input3= $this->step($i_3, $input3, $cmd_input3, $cmd_input4, $output);
+				$input4= $this->step($i_4, $input4, $cmd_input4, $cmd_input5, $output);
+				$input5= $this->step($i_5, $input5, $cmd_input5, $cmd_input1, $output);
 			}
 
 			if (count($cmd_input1) > 0 && $cmd_input1[count($cmd_input1) - 1] > $best) {
@@ -149,7 +148,7 @@ class Day07 implements iDay
 			
 		}
 		else if ($op === 6) {
-	    	//Opcode 6 is jump-if-false: if the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
+			//Opcode 6 is jump-if-false: if the first parameter is zero, it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
 			$params = $this->genParams($input[$i], 2, $i, $input);
 
 			if ($params[0] == 0) {
@@ -161,7 +160,7 @@ class Day07 implements iDay
 			
 		}
 		else if ($op === 7) {
-	    	//Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
+			//Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
 			$params = $this->genParams($input[$i], 3, $i, $input);
 
 			$input[$input[$i+3]] = $params[0] < $params[1] ? 1 : 0;
@@ -169,7 +168,7 @@ class Day07 implements iDay
 			$i += 4;
 		}
 		else if ($op === 8) {
-	    	//Opcode 8 is equals: if the first parameter is equal to the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
+			//Opcode 8 is equals: if the first parameter is equal to the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
 			$params = $this->genParams($input[$i], 3, $i, $input);
 
 			$input[$input[$i+3]] = $params[0] === $params[1] ? 1 : 0;
