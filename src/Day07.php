@@ -76,11 +76,11 @@ class Day07 implements iDay
 			$output = 0;
 
 			while ($i_1 < count($input1) || $i_2 < count($input2) || $i_3 < count($input3) || $i_4 < count($input4) || $i_5 < count($input5)) {
-				$input1= $this->step($i_1, $input1, $cmd_input1, $cmd_input2, $output);
-				$input2= $this->step($i_2, $input2, $cmd_input2, $cmd_input3, $output);
-				$input3= $this->step($i_3, $input3, $cmd_input3, $cmd_input4, $output);
-				$input4= $this->step($i_4, $input4, $cmd_input4, $cmd_input5, $output);
-				$input5= $this->step($i_5, $input5, $cmd_input5, $cmd_input1, $output);
+				$this->step($i_1, $input1, $cmd_input1, $cmd_input2, $output);
+				$this->step($i_2, $input2, $cmd_input2, $cmd_input3, $output);
+				$this->step($i_3, $input3, $cmd_input3, $cmd_input4, $output);
+				$this->step($i_4, $input4, $cmd_input4, $cmd_input5, $output);
+				$this->step($i_5, $input5, $cmd_input5, $cmd_input1, $output);
 			}
 
 			if (count($cmd_input1) > 0 && $cmd_input1[count($cmd_input1) - 1] > $best) {
