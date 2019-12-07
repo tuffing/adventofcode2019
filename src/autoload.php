@@ -15,7 +15,8 @@ spl_autoload_register(
                 'day06' => '/Day06.php',
                 'day07' => '/Day07.php',
                 'iday' => '/iDay.php',
-                'inputloader' => '/InputLoader.php'
+                'inputloader' => '/InputLoader.php',
+                'permutationiterator' => '/PermutationIterator.php'
             );
         }
         $cn = strtolower($class);

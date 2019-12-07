@@ -8,11 +8,8 @@ class Day07 implements iDay
 	}
 
 	public function runPart1() {
-		$nums = [0,1,2,3,4];
-		$this->heapPermutation($nums, 5,5, $perms, $count);
 		$best = 0;
-
-		foreach ($perms as $perm) {
+		foreach (new PermutationIterator([0,1,2,3,4]) as $perm) {
 			$output = 0;
 
 			for ($i = 0; $i < 5; $i++) {
@@ -27,36 +24,9 @@ class Day07 implements iDay
 	}
 
 
-	public function heapPermutation(&$a, $size, $n, &$perms, &$count) 
-	{ 
-		if ($size == 1) {
-			$a[] = $n;
-			$count++;
-			$perms[] = $a; 
-		}
-		for ($i=0; $i<$size; $i++) 
-		{ 
-			$this->heapPermutation($a, $size-1, $n, $perms, $count); 
-
-			if ($size % 2 == 1)  { 
-				$temp = $a[0]; 
-				$a[0] = $a[$size-1]; 
-				$a[$size-1] = $temp; 
-			} 
-			else { 
-				$temp = $a[$i]; 
-				$a[$i] = $a[$size-1]; 
-				$a[$size-1] = $temp; 
-			} 
-		} 
-	} 
-
 	public function runPart2() {
-		$nums = [5,6,7,8,9];
-		$this->heapPermutation($nums, 5,5, $perms, $count);
 		$best = 0;
-
-		foreach ($perms as $perm) {
+		foreach (new PermutationIterator([5,6,7,8,9]) as $perm) {
 			$input1 = $this->_input;
 			$input2 = $this->_input;
 			$input3 = $this->_input;
