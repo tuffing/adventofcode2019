@@ -72,7 +72,7 @@ class Day08 implements iDay
 		foreach ($image as $row) {
 			$line = implode('', $row);
 			$line = str_replace('0', ' ', $line);
-			$line = str_replace('1', '#', $line);
+			$line = str_replace('1', '█', $line);
 			print($line . PHP_EOL);
 		}
 
