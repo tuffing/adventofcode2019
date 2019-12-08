@@ -37,29 +37,20 @@ class Day07 implements iDay
 	}
 
 	public function runPart1() {
-		$best = 0;
-
-		foreach (new PermutationIterator([0,1,2,3,4]) as $perm) {
-			$this->_vm_config[0]['initial_input'] = [$perm[0], 0];
-			$this->_vm_config[1]['initial_input'] = [$perm[1]];
-			$this->_vm_config[2]['initial_input'] = [$perm[2]];
-			$this->_vm_config[3]['initial_input'] = [$perm[3]];
-			$this->_vm_config[4]['initial_input'] = [$perm[4]];
-
-			$processor = new IntCodeProcessor($this->_vm_config);
-			$best = max($processor->run(4), $best);
-		}
-		return $best;
+		return $this->findBest([0,1,2,3,4]);
 	}
 
 
 	public function runPart2() {
-		//return 2;
-		$best = 0;
-
 		$this->_vm_config[4]['output_to_vm'] = 0;
 
-		foreach (new PermutationIterator([5,6,7,8,9]) as $perm) {
+		return $this->findBest([5,6,7,8,9]);
+	}
+
+	public function findBest($range = [0,1,2,3,4]) {
+		$best = 0;
+
+		foreach (new PermutationIterator($range) as $perm) {
 			$this->_vm_config[0]['initial_input'] = [$perm[0], 0];
 			$this->_vm_config[1]['initial_input'] = [$perm[1]];
 			$this->_vm_config[2]['initial_input'] = [$perm[2]];
@@ -69,7 +60,6 @@ class Day07 implements iDay
 			$processor = new IntCodeProcessor($this->_vm_config);
 			$best = max($processor->run(4), $best);
 		}
-
 		return $best;
 	}
 
