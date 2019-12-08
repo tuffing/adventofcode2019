@@ -16,6 +16,8 @@ spl_autoload_register(
                 'day07' => '/Day07.php',
                 'iday' => '/iDay.php',
                 'inputloader' => '/InputLoader.php',
+                'intcodeprocessor' => '/IntCodeVM.php',
+                'intcodevm' => '/IntCodeVM.php',
                 'permutationiterator' => '/PermutationIterator.php'
             );
         }
