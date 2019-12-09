@@ -6,6 +6,7 @@ class IntCodeVM {
 	private $_program;
 	private $_index = 0;
 	public $_output;
+	private $rel_base = 0;
 	private $_active = true;
 	private	$_cmds = array(
 				1 => "add",
@@ -16,6 +17,7 @@ class IntCodeVM {
 				6 => "jumpIfFalse",
 				7 => "lessThan",
 				8 => "greaterThan",
+				9 => "adjustRelBase",
 				99 => "terminate",
 				);
 
@@ -77,17 +79,22 @@ class IntCodeVM {
 		$val = str_pad($op, $count+2, '0', STR_PAD_LEFT);
 
 		$codes = str_split($val);
-		array_pop($codes);
-		array_pop($codes);
+		$op = array_pop($codes);
+		$op = array_pop($codes) + $op;
 
 		$params = [];
 		for ($i = 1; $i <= $count; $i++) {
 			$p = array_pop($codes);
+
 			if ($p == 0) {
-				$params[] = (int)$this->_program[$this->_program[$this->_index+$i]];
+				$params[] = ($count >= 3 && $i == $count) || $op == '03' ? $this->_program[$this->_index+$i] : (int)$this->_program[$this->_program[$this->_index+$i]];
 			}
-			else {
+			else if ($p == '1') {
 				$params[] = (int)$this->_program[$this->_index+$i];
+			}
+			else {//relative mode
+				$rel = $this->rel_base + $this->_program[$this->_index+$i];
+				$params[] = ($count >= 3 && $i == $count) || $op == '03' ? $rel : (int)$this->_program[$rel];
 			}
 		}
 
@@ -97,14 +104,24 @@ class IntCodeVM {
 	//1
 	private function add() {
 		$params = $this->genParams(3);
-		$this->_program[$this->_program[$this->_index+3]] = $params[0] + $params[1];
+		$this->_program[$params[2]] = isset($this->_program[$params[2]]) ? $this->_program[$params[2]] : 0; 
+		$this->_program[$params[2]] = $params[0] + $params[1];
 		$this->_index += 4;
+	}
+
+	//9
+	private function adjustRelBase() {
+		/*Opcode 9 adjusts the relative base by the value of its only parameter. The relative base increases (or decreases, if the value is negative) by the value of the parameter.*/
+		$params = $this->genParams(1);
+		$this->rel_base += $params[0];
+		$this->_index += 2;
 	}
 
 	//2
 	private function mult() {
 		$params = $this->genParams(3);
-		$this->_program[$this->_program[$this->_index+3]] = $params[0] * $params[1];
+		$this->_program[$params[2]] = isset($this->_program[$params[2]]) ? $this->_program[$params[2]] : 0; 
+		$this->_program[$params[2]] = $params[0] * $params[1];
 		$this->_index += 4;
 	}
 
@@ -114,8 +131,9 @@ class IntCodeVM {
 			//do nothing
 			return;
 		}
+		$params = $this->genParams(1);
 
-		$this->_program[$this->_program[$this->_index+1]] = $this->_input->pop();
+		$this->_program[$params[0]] = $this->_input->pop();
 		$this->_index += 2;
 	}
 
@@ -157,7 +175,8 @@ class IntCodeVM {
 		//Opcode 7 is less than: if the first parameter is less than the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
 		$params = $this->genParams(3);
 
-		$this->_program[$this->_program[$this->_index+3]] = $params[0] < $params[1] ? 1 : 0;
+		$this->_program[$params[2]] = isset($this->_program[$params[2]]) ? $this->_program[$params[2]] : 0; 
+		$this->_program[$params[2]] = $params[0] < $params[1] ? 1 : 0;
 		
 		$this->_index += 4;
 	}
@@ -167,7 +186,8 @@ class IntCodeVM {
 		//Opcode 8 is equals: if the first parameter is equal to the second parameter, it stores 1 in the position given by the third parameter. Otherwise, it stores 0.
 		$params = $this->genParams(3);
 
-		$this->_program[$this->_program[$this->_index+3]] = $params[0] === $params[1] ? 1 : 0;
+		$this->_program[$params[2]] = isset($this->_program[$params[2]]) ? $this->_program[$params[2]] : 0; 
+		$this->_program[$params[2]] = $params[0] === $params[1] ? 1 : 0;
 		
 		$this->_index += 4;
 	}
@@ -225,7 +245,8 @@ class IntCodeProcessor {
 			}
 
 		}
-
+		//$queue = $this->_VMs[$vm_index_for_output]->getOutputQueue();
+		//var_dump($queue->toArray());
 		return $this->_VMs[$vm_index_for_output]->getOutputQueue()->pop();
 	}
 
