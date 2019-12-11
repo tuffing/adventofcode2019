@@ -87,6 +87,12 @@ class IntCodeVM {
 			$p = array_pop($codes);
 
 			if ($p == 0) {
+				if (!isset($this->_program[$this->_index+$i])) {
+					$this->_program[$this->_index+$i] = 0;
+				}
+				if (!isset($this->_program[$this->_program[$this->_index+$i]])) {
+					$this->_program[$this->_program[$this->_index+$i]] = 0;
+				}
 				$params[] = ($count >= 3 && $i == $count) || $op == '03' ? $this->_program[$this->_index+$i] : (int)$this->_program[$this->_program[$this->_index+$i]];
 			}
 			else if ($p == '1') {
@@ -131,6 +137,7 @@ class IntCodeVM {
 			//do nothing
 			return;
 		}
+
 		$params = $this->genParams(1);
 
 		$this->_program[$params[0]] = $this->_input->pop();
@@ -141,6 +148,7 @@ class IntCodeVM {
 	private function output() {
 		$params = $this->genParams(1);
 		$this->_output->push($params[0]);
+
 		$this->_index += 2;
 	}
 
@@ -229,6 +237,10 @@ class IntCodeProcessor {
 				$this->_VMs[$key]->setOutputQueue($target);
 			}
 		}
+	}
+
+	public function getVmAt($i) {
+		return $this->_VMs[$i];
 	}
 
 	public function run($vm_index_for_output) {

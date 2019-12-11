@@ -41,6 +41,7 @@ class Day10 implements iDay
 
 
 				//if we label these gradients right, then we can sort them alphabetically to get part 2
+				//look into replacing this with atan2..
 				if ($c2[1] < $c1[1] && $c2[0] - $c1[0] == 0) {
 					$gradient = 'a'; //straight up
 				}
