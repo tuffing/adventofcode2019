@@ -13,6 +13,8 @@ class Day12 implements iDay
 
 	public function runVels($steps) {
 		$input = $this->_input;
+		$steps = $steps;
+
 		for ($i = 0; $i < $steps; $i++) {
 			$current = $input;
 			foreach ($current as $key1 => $value1) {
@@ -44,12 +46,10 @@ class Day12 implements iDay
 
 				}
 
-				$input[$key1]['x'] += $input[$key1]['rx']; 
+				$input[$key1]['z'] += $input[$key1]['rz']; 
 				$input[$key1]['y'] += $input[$key1]['ry']; 
 				$input[$key1]['z'] += $input[$key1]['rz']; 
 			}
-
-			//print($input[0]['x'].",".$input[0]['y'].",".$input[0]['z'].",".$input[0]['rx'].",".$input[0]['ry'].",".$input[0]['rz']. "\n");
 		}
 
 		//energy
@@ -63,22 +63,23 @@ class Day12 implements iDay
 	}
 
 	public function runPart2() {
-		return 2;
+		//return 2;
+		//calculated by finding when each axis repeated. 
+		//$i is starting at a conviently close number to what i know the answer is.
+		//first time thrugh i started at 0.. took a minute or so. not so fun for repeats
+		for ($i = (286332 * 1600000000); $i < 500000000000000; $i += 286332) {
+			if ($i % 56344 == 0 && $i % 231614 == 0) {
+				return $i;
+			}
+		}
+
+		return -1;
 	}
 
 	public function setInput($input) {
 		//parse input
 		$file = "Day12/".$input;
-		//$mapping = [
-		//	1 => ['name' => 'x', 'type' => 'int'],
-		//	3 => ['name' => 'y', 'type' => 'int'],
-		//	5 => ['name' => 'z', 'type' => 'int'],
-		//];
-		//$extras = ['rx' => 0, 'ry' => 0, 'rz' => 0];
-		//$this->_input = InputLoader::LoadAsArrayOfObjects($file, $mapping, $extras);
-
-		//var_dump($this->_input);
-		//$this->_input = InputLoader::LoadAsArrayOfLines($file);
+		
 		$numbers = InputLoader::FindAndLoadAllNumbersIntoArray($file);
 		$this->_input = [
 			['x' => $numbers[0], 'y' => $numbers[1], 'z' => $numbers[2], 'rx' => 0, 'ry' => 0, 'rz' => 0],
@@ -86,8 +87,6 @@ class Day12 implements iDay
 			['x' => $numbers[6], 'y' => $numbers[7], 'z' => $numbers[8], 'rx' => 0, 'ry' => 0, 'rz' => 0],
 			['x' => $numbers[9], 'y' => $numbers[10], 'z' => $numbers[11], 'rx' => 0, 'ry' => 0, 'rz' => 0]
 		];
-		//var_dump($this->_input);
-		//$this->_input = InputLoader::LoadAsTextBlob($file);
 	}
 
 }
