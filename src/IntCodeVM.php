@@ -8,6 +8,7 @@ class IntCodeVM {
 	public $_output;
 	private $rel_base = 0;
 	private $_active = true;
+	private $_waiting = false;
 	private	$_cmds = array(
 				1 => "add",
 				2 => "mult",
@@ -44,6 +45,19 @@ class IntCodeVM {
 		return $this->_output;
 	}
 
+	public function dumpProgram() {
+		file_put_contents ('game.txt', implode(',', $this->_program));
+	}
+
+
+	public function setReg($i, $value) {
+		$this->_program[$i] = $value;
+	}
+
+	public function getReg($i) {
+		return $this->_program[$i];
+	}
+
 	public function step() {
 		if (!$this->_active) {
 			return false;
@@ -69,6 +83,9 @@ class IntCodeVM {
 		return $this->_active;
 	}
 
+	public function isWaiting() {
+		return $this->_waiting;
+	}
 
 	public function insertInput($input) {
 		$this->_input->push($input);
@@ -134,14 +151,15 @@ class IntCodeVM {
 	//3
 	private function consumeInput() {
 		if ($this->_input->isEmpty()) {
+			$this->_waiting = true;
 			//do nothing
 			return;
 		}
-
 		$params = $this->genParams(1);
 
 		$this->_program[$params[0]] = $this->_input->pop();
 		$this->_index += 2;
+		$this->_waiting = false;
 	}
 
 	//4
