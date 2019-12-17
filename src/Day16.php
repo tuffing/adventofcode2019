@@ -55,64 +55,30 @@ class Day16 implements iDay
 	}
 
 	public function runPart2() {
-		//return(substr('98765432109876543210', 7, 8));
 		$line = "";
-		$sub = (int)substr($line, 0, 7);
 
-		for ($k = 0; $k < 7; $k++) {
+		for ($k = 0; $k < 10000; $k++) {
 			//$line .= '03036732577212944063491565474664';
 			$line .= $this->_input;
 		}
-
-		//$line = str_split($line);
-		//$inp = str_split('80871224585914546619083218645595');
-		//$line =  new \Ds\Queue($inp);
-		$pat = [0, 1, 0, -1];
+		$sub = substr($line, 0, 7);
+		$line = substr($line, $sub);
+		$line = str_split($line);
 
 		for ($st = 0; $st < 100; $st++) {
-			print("STEP $st \n");
-			$new = "";
-			for($i = 1; $i <= strlen($line); $i++) {
-				$j = $i - 1;
-				$total = 0;
-				$count = 0;
-				while ($count < strlen($line)) {
-					foreach ($pat as $p) {
-						if ($count >= strlen($line))
-							break;
+			$totals = [];
+			$last = array_sum($line);
+			$totals[] =  substr((string)$last, -1);
 
-						while ($j > 0) {
-							if ($count >= strlen($line))
-								break;
+			for($i = 1; $i <= count($line); $i++) {
+				$last -= $line[$i-1];
 
-							$n = substr($line, $count, 1);//$line[$count];
-							//print("$n $p ".  $n * $p . "\n");
-							$total += $n * $p;
-							$j--;
-							$count++;
-						}
-						$j = $i;
-						# code...
-					}
-				}
-				//print("$total \n");
-				//break;
-				//print(substr((string)$total, -1) . "\n");
-				$new .= substr((string)$total, -1);
+				$totals[] = substr((string)$last, -1);
 			}
-			$line = $new;
-			//$test = sub_str($line, -(651*2));
-			//print("$test \n");
+			$line = $totals;
 		}
-		//var_dump($new);
-		//$sub = (int)substr($line, 0, 7);
-		//$res = implode('', $line); 
-		//file_put_contents("day16.txt", $res);
-		print("$line \n");
 
-		$test = substr($line, -(651*2));
-		print("$test \n");
-		return substr($line, $sub , 8);
+		return substr(implode('',$line), 0 , 8);
 	}
 
 	public function setInput($input) {
