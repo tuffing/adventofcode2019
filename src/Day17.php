@@ -41,11 +41,10 @@ class Day17 implements iDay
 
 				if ($t == 4) {
 					$sum += ($x * $y);
-					$cell = 'O';
 				}
 			}
 
-			print(implode('',$row). "\n");
+			//print(implode('',$row). "\n");
 		}
 
 		
