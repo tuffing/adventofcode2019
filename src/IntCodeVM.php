@@ -117,6 +117,10 @@ class IntCodeVM {
 			}
 			else {//relative mode
 				$rel = $this->rel_base + $this->_program[$this->_index+$i];
+				if (!isset($this->_program[$rel])) {
+					$this->_program[$rel] = 0;
+				}
+
 				$params[] = ($count >= 3 && $i == $count) || $op == '03' ? $rel : (int)$this->_program[$rel];
 			}
 		}
