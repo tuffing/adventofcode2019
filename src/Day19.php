@@ -23,8 +23,18 @@ class Day19 implements iDay
 		$coords = new \Ds\Queue();;
 		$output = $vm->getOutputQueue();
 
-		for ($x = 0; $x < 50; $x++) {
-			for ($y=0; $y < 50; $y++) { 
+		$minX = 0;
+		$maxX = 50;
+
+		$minY = 0;
+		$maxY = 50;
+
+
+		$wX = $maxX-$minX;
+		$wY = $maxY-$minY;
+
+		for ($y = $minY; $y < $maxY; $y++) {
+			for ($x=$minX; $x < $maxX; $x++) { 
 				$coords->push($x);
 				$coords->push($y);
 			}
@@ -35,7 +45,7 @@ class Day19 implements iDay
 		$count = 0;
 		$check = 0;
 		$show = false;
-		$firstX = -1;
+		$draw = false;
 		while (count($coords)) {
 			$processor = new IntCodeProcessor($this->_vm_config);
 			$vm = $processor->getVmAt(0);
@@ -60,12 +70,16 @@ class Day19 implements iDay
 
 				$o = $output->pop();
 
+				if ($draw && $o == 0)
+					print(".");
+				else if ($draw) 
+					print("#");
+
 				$count += $o;
 				$check++;
 
-				if ($o == 1 && $firstX == -1) {
-					$firstX = $check;
-				}
+				if ($draw && $check % $wX == 0)
+					print("\n");
 
 			}
 		}
@@ -74,7 +88,11 @@ class Day19 implements iDay
 	}
 
 	public function runPart2() {
-		return 0;
+		//did by hand. 
+		//@todo do this programitically. 
+		//could binary search it. go along one axis until i can go 100 back. 
+		//then go down 100. doesnt work? try again higher number etc. then come back again
+		return (1509 * 10000) + 773;
 		//return $map;
 	}
 
