@@ -11,10 +11,9 @@ class Day20 implements iDay
 	}
 
 	public function runPart1() {
-		//var_dump($this->_portals);
 		$x = $this->_portals['AA'][0][0];
 		$y = $this->_portals['AA'][0][1];
-		//var_dump($this->_portals['AA']);
+
 		$visited = ["$x,$y" => 0];
 		$queue = new \Ds\Queue();
 		$queue->push([$x,$y]);
@@ -36,8 +35,6 @@ class Day20 implements iDay
 					continue;
 
 				if ($map["$cx,$cy"] != '.') {
-					//print("\n $x, $y 1>" . $map["$x,$y"]. "\n");
-					//print("2>".$map["$cx,$cy"]. "\n");
 					foreach ($this->_portals[$map["$cx,$cy"]] as $p) {
 						if ($p[0] != $x && $p[1] != 0) {
 							$cx = $p[0];
@@ -54,8 +51,6 @@ class Day20 implements iDay
 
 		}
 
-		//var_dump($this->_portals['ZZ']);
-
 		$fx = $this->_portals['ZZ'][0][0];
 		$fy = $this->_portals['ZZ'][0][1];
 
@@ -63,7 +58,78 @@ class Day20 implements iDay
 	}
 
 	public function runPart2() {
-		return 2;
+		$x = $this->_portals['AA'][0][0];
+		$y = $this->_portals['AA'][0][1];
+
+		$visited = ["$x,$y,0" => 0];
+		$level_cap = 30;
+
+		$queue = new \Ds\PriorityQueue();
+		$queue->push([$x,$y, 0], $level_cap);
+		$map = $this->_map;
+
+		$lowest = 10000000;
+
+
+		while(count($queue)) {
+			$cur = $queue->pop();
+
+			$x = $cur[0];
+			$y = $cur[1];
+			$l = $cur[2];
+			$s = $visited["$x,$y,$l"];
+
+			$coords = [[0,-1],[0,1],[-1,0],[1,0]];
+
+			foreach ($coords as $c) {
+				$cx = $c[0] + $x;
+				$cy = $c[1] + $y;
+				$cl = $l;
+
+				if ($l == 0 && $map["$cx,$cy"] == 'ZZ') {
+					$lowest = min($lowest, $visited["$x,$y,0"]);
+					continue;
+				}
+
+				if ($map["$cx,$cy"] == '#' || in_array($map["$cx,$cy"], ['AA', 'ZZ']))
+					continue;
+
+				if ($map["$cx,$cy"] != '.') {
+					$edgeW = $this->_width - $cx;
+					$edgeH = $this->_height - $cy;
+					$pod = $map["$cx,$cy"];
+
+					if ($l > 0 && (in_array(2, [$x,$y]) || $this->_width - $cx <= 2 || $this->_height - $cy <= 2)) {
+						$cl = $l - 1;
+					}
+					else if ($l == 0 && (in_array(2, [$x,$y]) || $this->_width - $cx <= 2 || $this->_height - $cy <= 2)) {
+						continue;
+					}
+					else if ($l <= $level_cap) {
+						$cl = $l + 1;
+					}
+					else {
+						continue;
+
+					}
+
+					foreach ($this->_portals[$map["$cx,$cy"]] as $p) {
+						if ($p[0] != $x && $p[1] != 0) {
+							$cx = $p[0];
+							$cy = $p[1];
+						}
+					}
+				}
+
+				if (!isset($visited["$cx,$cy,$cl"]) || $visited["$cx,$cy,$cl"] > $s + 1) {
+					$visited["$cx,$cy,$cl"] = $s + 1;
+					$queue->push([$cx,$cy, $cl], $level_cap - $cl);
+				}
+			}
+
+		}
+
+		return $lowest;
 	}
 
 	public function setInput($input) {
@@ -73,10 +139,7 @@ class Day20 implements iDay
 		
 		$this->_height = count($map);
 		$this->_width = strlen($map[0]);
-		//var_dump($map[0]);
 		foreach ($map as $y => $row) {
-			//print("$row\n");
-
 			$row = str_split($row);
 			foreach ($row as $x => $cell) {
 				$map["$x,$y"] = $cell;
@@ -86,7 +149,6 @@ class Day20 implements iDay
 		$coords = [[0,-1],[0,1],[-1,0],[1,0]];
 		for ($y = 0; $y < $this->_height; $y++) {
 			for ($x = 0; $x < $this->_width; $x++) {
-				//print("$x,$y\n");
 				if ($map["$x,$y"] != '.')
 					continue;
 
@@ -95,7 +157,7 @@ class Day20 implements iDay
 					$cy = $c[1] + $y;
 					if (in_array($map["$cx,$cy"], ['.', '#']))
 						continue;
-					//print("??");
+
 					$cx2 = $cx+$c[0];
 					$cy2 = $cy+$c[1];
 					$name = $map["$cx,$cy"] . $map["$cx2,$cy2"];
@@ -108,22 +170,14 @@ class Day20 implements iDay
 
 					$this->_portals[$name][] = [$x,$y];
 					$map["$cx,$cy"] = $name;
-					//$map["$cx2,$cy2"] = $name;
 
 					break;
 				}
 			}
-			//print("\n");
 		}
 
 		$this->_map = $map;
 
-		/*for ($y = 0; $y < $this->_height; $y++) {
-			for ($x = 0; $x < $this->_width; $x++) {
-				print($map["$x,$y"]);
-			}
-			print("\n");
-		}*/
 		//$this->_input = InputLoader::FindAndLoadAllNumbersIntoArray($file);
 		//$this->_input = InputLoader::LoadAsTextBlob($file);
 	}

@@ -3,7 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 final class Day20Test extends TestCase
 {
-    public function testPart1Test23(): void
+   /* public function testPart1Test23(): void
     {
     	$day20 = new Day20("test23.txt");
 
@@ -18,6 +18,16 @@ final class Day20Test extends TestCase
 
         $this->assertEquals(
             58, $day20->runPart1()
+        );
+    }*/
+
+
+    public function testPart2Test396(): void
+    {
+        $day20 = new Day20("test396.txt");
+
+        $this->assertEquals(
+            396, $day20->runPart2()
         );
     }
 /*
