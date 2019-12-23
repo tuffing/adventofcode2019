@@ -9,6 +9,8 @@ class IntCodeVM {
 	private $rel_base = 0;
 	private $_active = true;
 	private $_waiting = false;
+	private $_no_wait_mode = false;
+	private $_idle = false;
 	private	$_cmds = array(
 				1 => "add",
 				2 => "mult",
@@ -22,11 +24,12 @@ class IntCodeVM {
 				99 => "terminate",
 				);
 
-	public function __construct($name, $program, $initial = []) {
+	public function __construct($name, $program, $initial = [], $no_wait_mode = false) {
 		$this->_name = $name;
 		$this->_program = $program;
 		$this->_input = new \Ds\Queue($initial);
 		$this->_output = new \Ds\Queue();
+		$this->_no_wait_mode = $no_wait_mode;
 	}
 
 	public function __toString() {
@@ -87,7 +90,12 @@ class IntCodeVM {
 		return $this->_waiting;
 	}
 
+	public function isIdle() {
+		return $this->_idle > 1;
+	}
+
 	public function insertInput($input) {
+		$this->_idle = 0;
 		$this->_input->push($input);
 	}
 
@@ -154,10 +162,19 @@ class IntCodeVM {
 
 	//3
 	private function consumeInput() {
-		if ($this->_input->isEmpty()) {
+		if (!$this->_no_wait_mode && $this->_input->isEmpty()) {
 			$this->_waiting = true;
+			$this->_idle++;
 			//do nothing
 			return;
+		}
+		else if ($this->_no_wait_mode && $this->_input->isEmpty()) {
+			$this->_input->push(-1);
+			$this->_idle++;
+
+		}
+		else {
+			$this->_idle = 0;
 		}
 		$params = $this->genParams(1);
 
@@ -168,6 +185,7 @@ class IntCodeVM {
 
 	//4
 	private function output() {
+		$this->_idle = 0;
 		$params = $this->genParams(1);
 		$this->_output->push($params[0]);
 
@@ -249,7 +267,11 @@ class IntCodeProcessor {
 	 */
 	public function __construct($vm_config = []) {
 		foreach ($vm_config as $config) {
-			$vm = new IntCodeVM($config['name'], $config['program'], $config['initial_input']);
+			$no_wait = false;
+			if (isset($config['no_wait'])) {
+				$no_wait = true;
+			}
+			$vm = new IntCodeVM($config['name'], $config['program'], $config['initial_input'], $no_wait);
 			$this->_VMs[] = $vm;
 		}
 		//set the output queues
@@ -279,9 +301,61 @@ class IntCodeProcessor {
 			}
 
 		}
-		//$queue = $this->_VMs[$vm_index_for_output]->getOutputQueue();
-		//var_dump($queue->toArray());
+
 		return $this->_VMs[$vm_index_for_output]->getOutputQueue()->pop();
+	}
+
+	public function run_network_mode_with_nat() {
+		$done = false;
+		$p1 = 0;
+		$Nx = 0;
+		$Ny = 0;
+		$prevY = -1;
+		while (!$done) {
+			$active_count = 0;
+			$idle_count = 0;
+			foreach ($this->_VMs as $id => $vm) {
+				$vm->step();
+
+				$out = $vm->getOutputQueue();
+				if (count($out) == 3) {
+					$key = $out->pop();
+					$x = $out->pop();
+					$y = $out->pop();
+					if ($key < 50) {
+						$this->_VMs[$key]->insertInput($x);
+						$this->_VMs[$key]->insertInput($y);
+					}
+					else if ($key == 255) {
+						if ($p1 == 0) {
+							$p1 = $Ny;
+						}
+						$Nx = $x;
+						$Ny = $y;
+					}
+				}
+
+				if ($vm->isIdle()) {
+					$idle_count++;
+				}
+
+				if (!$vm->isActive()) {
+					$done = false;
+					break;
+				}
+			}
+
+			if ($idle_count == count($this->_VMs)) {
+				$this->_VMs[0]->insertInput($Nx);
+				$this->_VMs[0]->insertInput($Ny);
+
+				if ($prevY == $Ny) {
+					return [$p1, $Ny];
+				}
+
+				$prevY = $Ny;
+			}
+		}
 	}
 
 }

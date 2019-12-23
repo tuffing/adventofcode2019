@@ -29,6 +29,7 @@ spl_autoload_register(
                 'day20' => '/Day20.php',
                 'day21' => '/Day21.php',
                 'day22' => '/Day22.php',
+                'day23' => '/Day23.php',
                 'iday' => '/iDay.php',
                 'inputloader' => '/InputLoader.php',
                 'intcodeprocessor' => '/IntCodeVM.php',
