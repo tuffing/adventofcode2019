@@ -16,6 +16,13 @@ class Day22 implements iDay
         return ($offset + $i * $increment) % $cards;
     }
 
+    /***
+    ** blatantly ripped and ported from mcpower_ guide and sample improved part 2
+    ** https://www.reddit.com/r/adventofcode/comments/ee0rqi/2019_day_22_solutions/fbnkaju/
+    **
+    ** @todo learn the mod arithmatic stuff and linear path stuff to understand the path going here.
+    ** 		Following what's going on is easy. understanding the math and why it works..
+    **/
 	public function runPart2() {
 		$cards = 119315717514047;
 		$repeats = 101741582076661;
