@@ -38,10 +38,7 @@ class Day24 implements iDay
 					}
 
 					$new_cell = '.';
-					if ($cell == '#' && $bugs == 1) {
-						$new_cell = '#';
-					}
-					else if ($cell == '.' && in_array($bugs, [1,2])) {
+					if (($cell == '#' && $bugs == 1) || $cell == '.' && in_array($bugs, [1,2])) {
 						$new_cell = '#';
 					}
 
@@ -120,6 +117,7 @@ class Day24 implements iDay
 								$cy = $middle + $c[1];
 
 								if (!array_key_exists($cz, $layers)) {
+									//bugs would always be 0
 									continue;
 								}	
 							} 
@@ -163,30 +161,23 @@ class Day24 implements iDay
 						}
 
 						$new_cell = '.';
-						if ($cell == '#' && $bugs == 1) {
-							$new_cell = '#';
-							$count++;
-						}
-						else if ($cell == '.' && in_array($bugs, [1,2])) {
+						if (($cell == '#' && $bugs == 1) || ($cell == '.' && in_array($bugs, [1,2]))) {
 							$new_cell = '#';
 							$count++;
 						}
 
 						$new[$z][$y][$x] = $new_cell;
 
-						//initalise the next layer for prep
+						//initalise the next layer UP for prep
 						if ($new_cell == '#' && $z == array_key_first($new)) {
-							//print("TEST $z");
 							$nz = $z - 1;
-							$new[$nz] = $new_layer;
-							ksort($new);
+							$new = [$nz => $new_layer] + $new;
 						}
 
-						//initalise the next layer for prep
+						//initalise the next layer DOWN for prep
 						if ($new_cell == '#' && $z == array_key_last($new)) {
 							$nz = $z + 1;
 							$new[$nz] = $new_layer;
-							ksort($new);
 						}
 					}
 				}
@@ -194,7 +185,6 @@ class Day24 implements iDay
 			}
 
 			$layers = $new;
-			ksort($layers);
 		}
 
 		return $count;
