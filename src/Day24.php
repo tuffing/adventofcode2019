@@ -8,7 +8,6 @@ class Day24 implements iDay
 	}
 
 	public function runPart1() {
-		return 1;
 		$set = new \Ds\Set();
 
 		$map = $this->_input;
